@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 const getAllProducts = async () => {
   try {
@@ -50,10 +50,17 @@ const addProduct = async (dataProduct) => {
   }
 };
 
-const updateProduct = async () => {
+const updateProduct = async (id, updateData) => {
   try {
+    const product = await Product.findById(id);
+    if (!product) {
+      throw new Error("Product not found");
+    }
+    Object.assign(product, updateData);
+    await product.save();
+    return product;
   } catch (error) {
-    throw new Error("Error al actualizar el producto");
+    throw new Error("Error updating product");
   }
 };
 

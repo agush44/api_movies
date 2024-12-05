@@ -59,8 +59,33 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
+    const { id } = req.params;
+    const { name, description, stock, price } = req.body;
+
+    const product = await Product.updateProduct(id);
+    if (!product) {
+      return res.status(404).json({
+        status: 404,
+        error: "Product not found.",
+      });
+    }
+
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.stock = stock || product.stock;
+    product.price = price || product.price;
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Product updated successfully",
+      product,
+    });
   } catch (error) {
-    res.status(500).json({ status: 500, error: error.message });
+    res.status(500).json({
+      status: 500,
+      error: error.message,
+    });
   }
 };
 
