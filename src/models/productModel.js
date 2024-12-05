@@ -35,9 +35,16 @@ const getAllProducts = async () => {
   }
 };
 
-const getProductById = async () => {
+const getProductById = async (id) => {
   try {
-  } catch (error) {}
+    const product = await Product.findById(id);
+    if (!product) {
+      throw new Error("Product not found.");
+    }
+    return product;
+  } catch (error) {
+    throw new Error("Error retrieving product from the database.");
+  }
 };
 
 const addProduct = async (dataProduct) => {
@@ -46,7 +53,7 @@ const addProduct = async (dataProduct) => {
     await newProduct.save();
     return newProduct;
   } catch (error) {
-    throw new Error("Error al crear el producto");
+    throw new Error("Error creating the product");
   }
 };
 
@@ -67,7 +74,7 @@ const updateProduct = async (id, updateData) => {
 const deleteProduct = async () => {
   try {
   } catch (error) {
-    throw new Error("Error al eliminar el producto");
+    throw new Error("Error deleting the product");
   }
 };
 
