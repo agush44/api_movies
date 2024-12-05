@@ -61,13 +61,13 @@ const updateProduct = async (id, updateData) => {
   try {
     const product = await Product.findById(id);
     if (!product) {
-      throw new Error("Product not found");
+      throw new Error("Product not found.");
     }
     Object.assign(product, updateData);
     await product.save();
     return product;
   } catch (error) {
-    throw new Error("Error updating product");
+    throw new Error("Error updating the product");
   }
 };
 
