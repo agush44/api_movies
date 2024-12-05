@@ -31,7 +31,7 @@ const getAllProducts = async () => {
     const products = await Product.find();
     return products;
   } catch (error) {
-    throw new Error("Error al obtener los productos");
+    throw new Error("Error retrieving products from the database.");
   }
 };
 
@@ -52,12 +52,16 @@ const addProduct = async (dataProduct) => {
 
 const updateProduct = async () => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    throw new Error("Error al actualizar el producto");
+  }
 };
 
 const deleteProduct = async () => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    throw new Error("Error al eliminar el producto");
+  }
 };
 
 export default {

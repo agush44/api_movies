@@ -37,19 +37,19 @@ const addProduct = async (req, res) => {
       });
     }
 
-    if (!newProduct) {
-      return res.status(404).json({
-        status: 404,
-        error: "Failed to create product. Please try again.",
-      });
-    }
-
     const newProduct = await Product.addProduct({
       name,
       description,
       stock: Number(stock),
       price: Number(price),
     });
+
+    if (!newProduct) {
+      return res.status(404).json({
+        status: 404,
+        error: "Failed to create product. Please try again.",
+      });
+    }
 
     res.status(201).json(newProduct);
   } catch (error) {
