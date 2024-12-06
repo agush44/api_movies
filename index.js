@@ -1,7 +1,8 @@
 import express from "express";
 import { connectDB } from "./src/config/mongo.js";
-import { productRouter } from "./src/routers/productRouter.js";
-import { usersRouter } from "./src/routers/usersRouter.js";
+import { productRoutes } from "./src/routes/productRoutes.js";
+import { usersRoutes } from "./src/routes/usersRoutes.js";
+import { authRoutes } from "./src/routes/authRoutes.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,8 +14,9 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/api/products", productRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 
 app.listen(PORT, () => {
   console.log("Servidor en escucha por el puerto http://localhost:" + PORT);
