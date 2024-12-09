@@ -21,11 +21,10 @@ const userSchema = new Schema(
 
 const User = model("User", userSchema);
 
-const register = async (dataUser) => {
+const registerUser = async (dataUser) => {
   const { username, password } = dataUser;
 
   const existingUser = await User.findOne({ username });
-
   if (existingUser) {
     return null;
   }
@@ -38,4 +37,16 @@ const register = async (dataUser) => {
   return savedUser;
 };
 
-export { register, User };
+const loginUser = async (dataUser) => {
+  const { username, password } = dataUser;
+
+  const existingUser = await User.findOne({ username });
+  if (!existingUser) {
+    return null;
+  }
+
+  const isMatch = await bcryptjs.compare(password, existingUser.password);
+  return { user: existingUser, match: isMatch };
+};
+
+export { registerUser, loginUser };

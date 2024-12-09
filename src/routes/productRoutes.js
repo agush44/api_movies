@@ -7,14 +7,14 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
-import { auth } from "../middleware/authMiddleware.js";
+import { authToken } from "../middleware/authMiddleware.js";
 
 const productRoutes = Router();
 
-productRoutes.get("/", auth, getAllProducts);
+productRoutes.get("/", getAllProducts);
 productRoutes.get("/:id", getProductById);
-productRoutes.post("/", addProduct);
-productRoutes.put("/:id", updateProduct);
-productRoutes.delete("/:id", deleteProduct);
+productRoutes.post("/", authToken, addProduct);
+productRoutes.put("/:id", authToken, updateProduct);
+productRoutes.delete("/:id", authToken, deleteProduct);
 
 export { productRoutes };
