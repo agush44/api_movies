@@ -18,7 +18,6 @@ const authToken = (req, res, next) => {
 
   jwt.verify(token, JWT_SECRET, (error, user) => {
     if (error) {
-      console.log(error);
       return res
         .status(403)
         .json({ error: "Forbidden: Invalid or expired token." });

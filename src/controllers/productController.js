@@ -85,13 +85,19 @@ const deleteProduct = async (req, res) => {
       return res.status(400).json({ error: "Product ID is required." });
     }
 
-    const product = Product.deleteProduct(id);
+    const deletedProduct = await Product.deleteProduct(id);
 
-    if (!product) res.status(404).json({ error: "Product not found." });
+    if (!deletedProduct) {
+      return res.status(404).json({ error: "Product not found." });
+    }
 
     res.json({ message: "Product successfully deleted." });
   } catch (error) {
-    res.status(500).json({ status: 500, error: error.message });
+    if (error.message === "Product not found.") {
+      return res.status(404).json({ error: error.message });
+    }
+
+    res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };
 

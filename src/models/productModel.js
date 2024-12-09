@@ -71,10 +71,17 @@ const updateProduct = async (id, updateData) => {
   }
 };
 
-const deleteProduct = async () => {
+const deleteProduct = async (id) => {
   try {
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      throw new Error("Product not found.");
+    }
+
+    return deletedProduct;
   } catch (error) {
-    throw new Error("Error deleting the product");
+    throw new Error(error.message || "Error deleting the product");
   }
 };
 
