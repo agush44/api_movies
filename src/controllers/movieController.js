@@ -1,15 +1,15 @@
 import Movie from "../models/movieModel.js";
 
-const getAllMovies = async (req, res) => {
+const getAllMovies = async (req, res, next) => {
   try {
     const movies = await Movie.getAllMovies();
     res.status(200).json(movies);
   } catch (error) {
-    res.status(500).json({ status: 500, error: error.message });
+    next(error);
   }
 };
 
-const getMovieById = async (req, res) => {
+const getMovieById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const movie = await Movie.getMovieById(id);
@@ -19,11 +19,11 @@ const getMovieById = async (req, res) => {
     }
     res.status(200).json(movie);
   } catch (error) {
-    res.status(500).json({ status: 500, error: error.message });
+    next(error);
   }
 };
 
-const addMovie = async (req, res) => {
+const addMovie = async (req, res, next) => {
   const { title, genre, director, releaseYear, rating } = req.body;
   try {
     if (!title || !genre || !director || !releaseYear || !rating) {
@@ -51,14 +51,11 @@ const addMovie = async (req, res) => {
 
     res.status(201).json(newMovie);
   } catch (error) {
-    if (error.message.startsWith("Duplicate title")) {
-      return res.status(409).json({ error: error.message });
-    }
-    res.status(500).json({ status: 500, error: error.message });
+    next(error);
   }
 };
 
-const updateMovie = async (req, res) => {
+const updateMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -74,11 +71,11 @@ const updateMovie = async (req, res) => {
       movie: updatedMovie,
     });
   } catch (error) {
-    res.status(500).json({ status: 500, error: error.message });
+    next(error);
   }
 };
 
-const deleteMovie = async (req, res) => {
+const deleteMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -94,8 +91,7 @@ const deleteMovie = async (req, res) => {
 
     res.status(200).json({ message: "Movie successfully deleted." });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, error: "Internal server error" });
+    next(error);
   }
 };
 

@@ -20,7 +20,10 @@ const getAllMovies = async () => {
     const movies = await Movie.find();
     return movies;
   } catch (error) {
-    throw new Error("Error retrieving movies from the database.");
+    throw {
+      status: 500,
+      message: "Error retrieving movies from the database.",
+    };
   }
 };
 
@@ -28,11 +31,17 @@ const getMovieById = async (id) => {
   try {
     const movie = await Movie.findById(id);
     if (!movie) {
-      throw new Error("Movie not found.");
+      throw {
+        status: 404,
+        message: "Movie not found.",
+      };
     }
     return movie;
   } catch (error) {
-    throw new Error("Error retrieving movie from the database.");
+    throw {
+      status: 500,
+      message: "Error retrieving movie from the database.",
+    };
   }
 };
 
@@ -43,11 +52,15 @@ const addMovie = async (dataMovie) => {
     return newMovie;
   } catch (error) {
     if (error.code === 11000) {
-      throw new Error(
-        "Duplicate title: A movie with this title already exists."
-      );
+      throw {
+        status: 409,
+        message: "Duplicate title: A movie with this title already exists.",
+      };
     }
-    throw new Error("Error creating the movie");
+    throw {
+      status: 500,
+      message: "Error creating the movie",
+    };
   }
 };
 
@@ -55,13 +68,20 @@ const updateMovie = async (id, updateData) => {
   try {
     const movie = await Movie.findById(id);
     if (!movie) {
-      throw new Error("Movie not found.");
+      throw {
+        status: 404,
+        message: "Movie not found.",
+      };
     }
     Object.assign(movie, updateData);
     await movie.save();
     return movie;
   } catch (error) {
-    throw new Error("Error updating the movie");
+    console.log(error);
+    throw {
+      status: 500,
+      message: "Error updating the movie",
+    };
   }
 };
 
@@ -70,12 +90,18 @@ const deleteMovie = async (id) => {
     const deletedMovie = await Movie.findByIdAndDelete(id);
 
     if (!deletedMovie) {
-      throw new Error("Movie not found.");
+      throw {
+        status: 404,
+        message: "Movie not found.",
+      };
     }
 
     return deletedMovie;
   } catch (error) {
-    throw new Error(error.message || "Error deleting the movie");
+    throw {
+      status: 500,
+      message: "Error deleting the movie",
+    };
   }
 };
 

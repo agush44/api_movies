@@ -26,7 +26,10 @@ const registerUser = async (dataUser) => {
 
   const existingUser = await User.findOne({ username });
   if (existingUser) {
-    return null;
+    throw {
+      status: 400,
+      message: "Username is already taken.",
+    };
   }
 
   const alg = await bcryptjs.genSalt(10);
@@ -34,6 +37,7 @@ const registerUser = async (dataUser) => {
 
   const newUser = new User({ username, password: hashedPass });
   const savedUser = await newUser.save();
+
   return savedUser;
 };
 
@@ -42,10 +46,19 @@ const loginUser = async (dataUser) => {
 
   const existingUser = await User.findOne({ username });
   if (!existingUser) {
-    return null;
+    throw {
+      status: 404,
+      message: "User not found.",
+    };
   }
 
   const isMatch = await bcryptjs.compare(password, existingUser.password);
+  if (!isMatch) {
+    throw {
+      status: 401,
+      message: "Invalid password.",
+    };
+  }
   return { user: existingUser, match: isMatch };
 };
 
