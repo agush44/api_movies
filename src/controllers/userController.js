@@ -52,7 +52,7 @@ const loginUserController = async (req, res) => {
     }
 
     const token = jwt.sign({ username: user.username }, JWT_SECRET, {
-      expiresIn: "3m",
+      expiresIn: "1h",
     });
 
     res.status(200).json({ token });

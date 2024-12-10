@@ -1,6 +1,6 @@
 import express from "express";
 import { connectDB } from "./src/config/mongo.js";
-import { productRoutes } from "./src/routes/productRoutes.js";
+import { movieRoutes } from "./src/routes/movieRoutes.js";
 import { userRoutes } from "./src/routes/userRoutes.js";
 import dotenv from "dotenv";
 
@@ -13,7 +13,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/api/products", productRoutes);
+app.use("/api/movies", movieRoutes);
 app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
