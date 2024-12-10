@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  description: API for managing movies and user authentication.
+  version: 1.0.0
+servers:
+  description: Local development server
+
+paths:
+  /movies:
+    get:
+      summary: Get all movies
+      description: Retrieve a list of all movies.
+      responses:
+        "200":
+          description: A list of movies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+        "500":
+          description: Internal server error.
+    post:
+      summary: Add a new movie
+      security:
+        - bearerAuth: []
+      description: Add a new movie to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieInput"
+      responses:
+        "201":
+          description: Movie created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        "400":
+          description: Validation error.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Internal server error.
+
+  /movies/{id}:
+    get:
+      summary: Get a movie by ID
+      description: Retrieve a movie by its unique ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The requested movie.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        "404":
+          description: Movie not found.
+        "500":
+          description: Internal server error.
+    put:
+      summary: Update a movie
+      security:
+        - bearerAuth: []
+      description: Update details of an existing movie.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieInput"
+      responses:
+        "200":
+          description: Movie updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        "400":
+          description: Validation error.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Movie not found.
+        "500":
+          description: Internal server error.
+    delete:
+      summary: Delete a movie
+      security:
+        - bearerAuth: []
+      description: Delete a movie by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Movie successfully deleted.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Movie not found.
+        "500":
+          description: Internal server error.
+
+  /users/register:
+    post:
+      summary: Register a new user
+      description: Register a new user by providing username and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: User registered successfully.
+        "400":
+          description: Validation error.
+        "500":
+          description: Internal server error.
+
+  /users/login:
+    post:
+      summary: Login a user
+      description: Authenticate a user and return a JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: User logged in successfully with a JWT token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The JWT token.
+        "400":
+          description: Validation error.
+        "401":
+          description: Invalid credentials.
+        "500":
+          description: Internal server error.
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        genre:
+          type: array
+          items:
+            type: string
+        director:
+          type: string
+        releaseYear:
+          type: integer
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+      required:
+        - title
+        - genre
+        - director
+        - releaseYear
+    MovieInput:
+      type: object
+      properties:
+        title:
+          type: string
+        genre:
+          type: array
+          items:
+            type: string
+        director:
+          type: string
+        releaseYear:
+          type: integer
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+      required:
+        - title
+        - genre
+        - director
+        - releaseYear
+        - rating
+    UserInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -27,7 +27,7 @@ const registerUser = async (dataUser) => {
   const existingUser = await User.findOne({ username });
   if (existingUser) {
     throw {
-      status: 400,
+      status: 409,
       message: "Username is already taken.",
     };
   }
