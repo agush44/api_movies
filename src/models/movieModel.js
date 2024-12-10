@@ -42,6 +42,11 @@ const addMovie = async (dataMovie) => {
     await newMovie.save();
     return newMovie;
   } catch (error) {
+    if (error.code === 11000) {
+      throw new Error(
+        "Duplicate title: A movie with this title already exists."
+      );
+    }
     throw new Error("Error creating the movie");
   }
 };

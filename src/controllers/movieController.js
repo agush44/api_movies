@@ -51,6 +51,9 @@ const addMovie = async (req, res) => {
 
     res.status(201).json(newMovie);
   } catch (error) {
+    if (error.message.startsWith("Duplicate title")) {
+      return res.status(409).json({ error: error.message });
+    }
     res.status(500).json({ status: 500, error: error.message });
   }
 };
@@ -91,7 +94,7 @@ const deleteMovie = async (req, res) => {
 
     res.status(200).json({ message: "Movie successfully deleted." });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };

@@ -1,5 +1,6 @@
 //Configuración para la conexión a la base de datos
-import mongoose, { connect } from "mongoose";
+import { mongoose } from "mongoose";
+
 process.loadEnvFile();
 
 const URI_DB = process.env.URI_DB;

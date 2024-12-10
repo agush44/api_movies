@@ -2,9 +2,8 @@ import express from "express";
 import { connectDB } from "./src/config/mongo.js";
 import { movieRoutes } from "./src/routes/movieRoutes.js";
 import { userRoutes } from "./src/routes/userRoutes.js";
-import dotenv from "dotenv";
 
-dotenv.config();
+process.loadEnvFile();
 
 const PORT = process.env.PORT;
 
