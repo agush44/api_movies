@@ -1,4 +1,4 @@
-# Movie API
+# API RESTful de Gestión de Películas y Usuarios
 
 ## Descripción
 
