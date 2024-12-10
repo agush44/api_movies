@@ -3,11 +3,11 @@ info:
   title: Movie API
   description: API for managing movies and user authentication.
   version: 1.0.0
-servers:
+  url: http://localhost:5000
   description: Local development server
 
 paths:
-  /movies:
+  /api/movies:
     get:
       summary: Get all movies
       description: Retrieve a list of all movies.
@@ -47,7 +47,7 @@ paths:
         "500":
           description: Internal server error.
 
-  /movies/{id}:
+  /api/movies/{id}:
     get:
       summary: Get a movie by ID
       description: Retrieve a movie by its unique ID.
@@ -121,7 +121,7 @@ paths:
         "500":
           description: Internal server error.
 
-  /users/register:
+  /api/users/register:
     post:
       summary: Register a new user
       description: Register a new user by providing username and password.
@@ -139,7 +139,7 @@ paths:
         "500":
           description: Internal server error.
 
-  /users/login:
+  /api/users/login:
     post:
       summary: Login a user
       description: Authenticate a user and return a JWT token.
