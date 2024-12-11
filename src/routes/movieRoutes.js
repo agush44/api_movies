@@ -1,4 +1,3 @@
-//Endpoints de recursos
 import { Router } from "express";
 import {
   getAllMovies,

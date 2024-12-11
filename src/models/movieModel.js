@@ -10,6 +10,7 @@ const movieSchema = new Schema(
   },
   {
     versionKey: false,
+    timestamps: true,
   }
 );
 
