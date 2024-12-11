@@ -2,7 +2,7 @@
 
 ## Descripción
 
-La **Movie API** es una aplicación backend que permite gestionar una base de datos de películas y usuarios. Incluye funcionalidades de registro, autenticación y operaciones CRUD en películas. Además, implementa medidas de seguridad y está documentada con Swagger.
+Este proyecto consiste en una aplicación backend que permite gestionar una base de datos de películas y usuarios. Incluye funcionalidades de registro, autenticación y operaciones CRUD en películas. Además, implementa medidas de seguridad y está documentada con Swagger.
 
 ## Características
 
