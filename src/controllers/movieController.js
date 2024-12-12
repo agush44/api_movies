@@ -63,7 +63,10 @@ const updateMovie = async (req, res, next) => {
     const updatedMovie = await Movie.updateMovie(id, updateData);
 
     if (!updatedMovie) {
-      return res.status(404).json({ error: "Movie not found." });
+      return res.status(404).json({
+        status: 400,
+        error: "Movie not found.",
+      });
     }
 
     res.status(200).json({
@@ -80,13 +83,19 @@ const deleteMovie = async (req, res, next) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(400).json({ error: "Movie ID is required." });
+      return res.status(400).json({
+        status: 400,
+        error: "Movie ID is required.",
+      });
     }
 
     const deletedMovie = await Movie.deleteMovie(id);
 
     if (!deletedMovie) {
-      return res.status(404).json({ error: "Movie not found." });
+      return res.status(404).json({
+        status: 400,
+        error: "Movie not found.",
+      });
     }
 
     res.status(200).json({ message: "Movie successfully deleted." });

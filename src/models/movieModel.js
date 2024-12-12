@@ -78,7 +78,6 @@ const updateMovie = async (id, updateData) => {
     await movie.save();
     return movie;
   } catch (error) {
-    console.log(error);
     throw {
       status: 500,
       message: "Error updating the movie",
